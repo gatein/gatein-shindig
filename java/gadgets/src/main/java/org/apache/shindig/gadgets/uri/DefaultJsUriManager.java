@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shindig.common.servlet.ServletRequestContext;
 import org.apache.shindig.common.uri.Uri;
 import org.apache.shindig.common.uri.UriBuilder;
 import org.apache.shindig.config.ContainerConfig;
@@ -174,6 +175,7 @@ public class DefaultJsUriManager implements JsUriManager {
             "' missing config for required param: " + key);
       }
     }
+    ret = ret.replace("%host%", ServletRequestContext.getAuthority());
     return ret;
   }
 
