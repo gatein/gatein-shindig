@@ -1325,38 +1325,6 @@
   </reporting>
 
   <!-- ====================================================================== -->
-  <!-- R E P O S I T O R I E S                                                -->
-  <!-- ====================================================================== -->
-  <repositories>
-    <repository>
-      <id>central</id>
-      <name>Maven Repository Switchboard</name>
-      <layout>default</layout>
-      <url>http://repo1.maven.org/maven2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>diff_match_patch</id>
-      <url>http://google-diff-match-patch.googlecode.com/svn/trunk/maven</url>
-    </repository>
-    <repository>
-      <id>caja</id>
-      <url>http://google-caja.googlecode.com/svn/maven</url>
-    </repository>
-    <repository>
-      <id>oauth</id>
-      <url>http://oauth.googlecode.com/svn/code/maven</url>
-    </repository>
-    <!-- for jstl-1.2 for now.. -->
-    <repository>
-      <id>java.net</id>
-      <url>http://download.java.net/maven/2/</url>
-    </repository>
-  </repositories>
-
-  <!-- ====================================================================== -->
   <!-- D E P E N D E N C I E S                                                -->
   <!-- ====================================================================== -->
   <dependencies>
