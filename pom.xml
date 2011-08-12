@@ -50,6 +50,7 @@
 
     <!-- maven-release-plugin -->
     <useReleaseProfile>false</useReleaseProfile>
+    <autoVersionSubmodules>true</autoVersionSubmodules>
     <arguments></arguments>
     <pushChanges>false</pushChanges>
     <version.release.plugin>2.2.1</version.release.plugin>
