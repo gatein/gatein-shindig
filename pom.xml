@@ -41,6 +41,11 @@
   <inceptionYear>2007</inceptionYear>
 
   <properties>
+
+    <!-- maven-release-plugin -->
+    <pushChanges>false</pushChanges>
+    <version.release.plugin>2.2.1</version.release.plugin>
+
     <!-- What version of the API did we ship last -->
     <shindig.api.previous>1.0.1</shindig.api.previous>
   </properties>
@@ -53,9 +58,9 @@
   <!-- S C M                                                                  -->
   <!-- ====================================================================== -->
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/shindig/tags/shindig-project-2.0.2</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/shindig/tags/shindig-project-2.0.2</developerConnection>
-    <url>http://svn.apache.org/viewvc/shindig/tags/shindig-project-2.0.2</url>
+     <connection>scm:git:git://github.com/gatein/gatein-shindig.git</connection>
+     <developerConnection>scm:git:ssh://git@github.com/gatein/gatein-shindig.git</developerConnection>
+     <url>https://github.com/gatein/gatein-shindig</url>
   </scm>
 
   <!-- ====================================================================== -->
