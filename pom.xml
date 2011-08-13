@@ -1380,7 +1380,7 @@
       <dependency>
         <groupId>org.gatein</groupId>
         <artifactId>gatein-dep</artifactId>
-        <version>1.1.0-Beta05</version>
+        <version>1.1.0-Beta06</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
