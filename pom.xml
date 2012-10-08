@@ -1442,4 +1442,12 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <repositories>
+    <repository>
+      <id>google-diff-match-patch</id>
+      <url>http://google-diff-match-patch.googlecode.com/svn/trunk/maven</url>
+    </repository>
+  </repositories>
+
 </project>
