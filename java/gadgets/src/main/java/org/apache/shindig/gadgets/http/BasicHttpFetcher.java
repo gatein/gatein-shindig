@@ -45,11 +45,8 @@ import org.apache.http.client.params.ClientPNames;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.client.protocol.RequestAddCookies;
 import org.apache.http.client.protocol.ResponseProcessCookies;
-import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.ConnectionPoolTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
-import org.apache.http.conn.params.ConnManagerParams;
-import org.apache.http.conn.params.ConnPerRouteBean;
 import org.apache.http.conn.params.ConnRouteParams;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
@@ -80,6 +77,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -146,12 +144,6 @@ public class BasicHttpFetcher implements HttpFetcher {
 
     HttpParams params = new BasicHttpParams();
 
-    ConnManagerParams.setTimeout(params, connectionTimeoutMs);
-
-    // These are probably overkill for most sites.
-    ConnManagerParams.setMaxTotalConnections(params, 1152);
-    ConnManagerParams.setMaxConnectionsPerRoute(params, new ConnPerRouteBean(256));
-
     HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
     HttpProtocolParams.setUserAgent(params, "Apache Shindig");
     HttpProtocolParams.setContentCharset(params, "UTF-8");
@@ -165,10 +157,14 @@ public class BasicHttpFetcher implements HttpFetcher {
 
     // Create and initialize scheme registry
     SchemeRegistry schemeRegistry = new SchemeRegistry();
-    schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-    schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
+    schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
+    schemeRegistry.register(new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
 
-    ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
+    ThreadSafeClientConnManager cm = new ThreadSafeClientConnManager(schemeRegistry, connectionTimeoutMs, TimeUnit.MILLISECONDS);
+    // These are probably overkill for most sites.
+    cm.setMaxTotal(1152);
+    cm.setDefaultMaxPerRoute(256);
+
     DefaultHttpClient client = new DefaultHttpClient(cm, params);
 
     // Set proxy if set via guice.

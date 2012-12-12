@@ -67,6 +67,8 @@
     <version.apache.geronimo.specs>1.0.1</version.apache.geronimo.specs>
     <version.apache.shiro>1.0.0-incubating</version.apache.shiro>
     <version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
+    <version.org.apache.httpcomponents>4.1.2</version.org.apache.httpcomponents>
+    <version.org.apache.httpcomponents.httpcore>4.1.4</version.org.apache.httpcomponents.httpcore>
   </properties>
 
   <prerequisites>
@@ -1066,7 +1068,16 @@
         <artifactId>modules</artifactId>
         <version>${version.rome.modules}</version>
       </dependency>
-
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${version.org.apache.httpcomponents}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpcore</artifactId>
+        <version>${version.org.apache.httpcomponents.httpcore}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
