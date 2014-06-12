@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests for UriUtils.
@@ -271,5 +272,32 @@ public class UriUtilsTest {
                  UriUtils.getContentTypeWithoutCharset("text/html; pharset=hello; hello=world"));
     assertEquals("text/html; charsett=utf; hello=world",
                  UriUtils.getContentTypeWithoutCharset("text/html; charsett=utf; ; hello=world"));
+  }
+
+  @Test
+  public void testSplitHostAndPort() {
+      assertNull(UriUtils.splitHostAndPort(null));
+      assertNull(UriUtils.splitHostAndPort(""));
+
+      assertEquals(1, UriUtils.splitHostAndPort("host").length);
+      assertEquals("host", UriUtils.splitHostAndPort("host")[0]);
+
+      assertEquals(2, UriUtils.splitHostAndPort("host:port").length);
+      assertEquals("host", UriUtils.splitHostAndPort("host:port")[0]);
+      assertEquals("port", UriUtils.splitHostAndPort("host:port")[1]);
+
+      assertEquals(1, UriUtils.splitHostAndPort("[::1]").length);
+      assertEquals("[::1]", UriUtils.splitHostAndPort("[::1]")[0]);
+
+      assertEquals(1, UriUtils.splitHostAndPort("2001:cdba:0000:0000:0000:0000:3257:9652").length);
+      assertEquals("2001:cdba:0000:0000:0000:0000:3257:9652", UriUtils.splitHostAndPort("2001:cdba:0000:0000:0000:0000:3257:9652")[0]);
+
+      assertEquals(2, UriUtils.splitHostAndPort("[::1]:port").length);
+      assertEquals("[::1]", UriUtils.splitHostAndPort("[::1]:port")[0]);
+      assertEquals("port", UriUtils.splitHostAndPort("[::1]:port")[1]);
+
+      assertEquals(2, UriUtils.splitHostAndPort("[2001:cdba:0000:0000:0000:0000:3257:9652]:8080").length);
+      assertEquals("[2001:cdba:0000:0000:0000:0000:3257:9652]", UriUtils.splitHostAndPort("[2001:cdba:0000:0000:0000:0000:3257:9652]:8080")[0]);
+      assertEquals("8080", UriUtils.splitHostAndPort("[2001:cdba:0000:0000:0000:0000:3257:9652]:8080")[1]);
   }
 }

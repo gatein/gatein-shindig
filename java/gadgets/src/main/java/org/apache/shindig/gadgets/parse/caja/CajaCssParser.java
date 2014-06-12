@@ -46,7 +46,9 @@ import com.google.inject.Inject;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * A CSS DOM parser using Caja.
@@ -129,9 +131,11 @@ public class CajaCssParser {
 
   /** Serialize a stylesheet to a String */
   public String serialize(CssTree.StyleSheet styleSheet) {
+    List<String> ip6Uris = new ArrayList<String>();
+    CajaCssUtils.saveIp6Uris(styleSheet, ip6Uris);
     StringWriter writer = new StringWriter();
     serialize(styleSheet, writer);
-    return writer.toString();
+    return CajaCssUtils.restoreIp6Uris(writer.toString(), ip6Uris);
   }
 
   /** Serialize a stylesheet to a Writer. */
