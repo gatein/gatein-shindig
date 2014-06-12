@@ -86,6 +86,8 @@ import java.util.zip.InflaterInputStream;
 
 // Temporary replacement of javax.annotation.Nullable
 import org.apache.shindig.common.Nullable;
+import org.apache.shindig.gadgets.uri.UriUtils;
+
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -290,7 +292,13 @@ public class BasicHttpFetcher implements HttpFetcher {
           "Missing schema for request: " + uri,
           HttpServletResponse.SC_BAD_REQUEST);
     }
-    String[] hostparts = StringUtils.splitPreserveAllTokens(uri.getAuthority(),':');
+
+    String[] hostparts = UriUtils.splitHostAndPort(uri.getAuthority());
+    if (hostparts == null) {
+        throw new GadgetException(GadgetException.Code.INVALID_USER_DATA,
+            "Invalid host name in request: " + uri.getAuthority(),
+            HttpServletResponse.SC_BAD_REQUEST);
+    }
     int port = -1; // default port
     if (hostparts.length > 2) {
       throw new GadgetException(GadgetException.Code.INVALID_USER_DATA,
@@ -383,6 +391,8 @@ public class BasicHttpFetcher implements HttpFetcher {
       }
     }
   }
+
+
 
   /**
    * Called when a request takes too long.   Consider subclassing this if you want to do something other than logging

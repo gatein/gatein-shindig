@@ -277,4 +277,66 @@ public final class UriUtils {
 
     return contentTypeWithoutCharset;
   }
+
+    /**
+     * Called to split an authority in host and port.
+     * Support for IPv4 and IPv6 formats.
+     *
+     * Workaround for original code:
+     * String[] hostparts = StringUtils.splitPreserveAllTokens(uri.getAuthority(),':');
+     * with issues when IPv6 addresses like [::1] are used.
+     *
+     * @param authority String with host:port format where host can be IPv4 or IPv6 format
+     * @return Array with 1 or 2 elements containing host or port.
+     */
+    public static String[] splitHostAndPort(String authority) {
+        String[] hostparts;
+        if (authority == null || authority.length() == 0) {
+            // This case should not happen
+            return null;
+        }
+
+        int lastColon = authority.lastIndexOf(':');
+        if (lastColon == -1) {
+            // IPv4 single without port
+            hostparts = new String[1];
+            hostparts[0] = authority;
+        } else {
+            int openBracket = authority.lastIndexOf('[');
+            if (openBracket == -1) {
+                // Two cases: a single IPv6 or IPv4 with port
+                String untilColon = authority.substring(0, lastColon);
+                boolean moreColons = untilColon.lastIndexOf(':') > -1;
+                if (moreColons) {
+                    // IPv6 single without port
+                    hostparts = new String[1];
+                    hostparts[0] = authority;
+                } else {
+                    // IPv4 with port
+                    hostparts = new String[2];
+                    hostparts[0] = authority.substring(0, lastColon);
+                    hostparts[1] = authority.substring(lastColon + 1);
+                }
+            } else {
+                int closeBracket = authority.lastIndexOf(']');
+                if (closeBracket == -1) {
+                    // This case should not happen, means authority is incorrect
+                    return null;
+                }
+                boolean moreColons = authority.substring(closeBracket).lastIndexOf(':') > -1;
+                if (moreColons) {
+                    // IPv6 with port
+                    hostparts = new String[2];
+                    hostparts[0] = authority.substring(0, lastColon);
+                    hostparts[1] = authority.substring(lastColon + 1);
+                } else {
+                    // IPv6 single without port
+                    hostparts = new String[1];
+                    hostparts[0] = authority;
+                }
+            }
+        }
+
+        return hostparts;
+    }
 }
