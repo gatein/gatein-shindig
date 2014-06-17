@@ -51,7 +51,7 @@
     <!-- maven-release-plugin -->
     <autoVersionSubmodules>true</autoVersionSubmodules>
     <pushChanges>false</pushChanges>
-    <version.release.plugin>2.2.1</version.release.plugin>
+    <version.release.plugin>2.4.2</version.release.plugin>
 
     <!-- What version of the API did we ship last -->
     <shindig.api.previous>1.0.1</shindig.api.previous>
